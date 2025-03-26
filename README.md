@@ -1,54 +1,38 @@
-# React + TypeScript + Vite
+# AIChat - A Real-Time Chat Application (PERN Stack)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+AIChat is a real-time chat application built using the **PERN** stack (**PostgreSQL, Express.js, React, Node.js**). It features WebSocket-powered messaging, authentication, and a clean, modern UI built with **React + TypeScript + Vite**.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Frontend:** React, TypeScript, Vite, Tailwind CSS
+- **Backend:** Node.js, Express.js
+- **Database:** PostgreSQL with Prisma ORM
+- **Real-Time Communication:** WebSockets (Socket.io)
+- **Authentication:** JWT-based authentication
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- 🔥 **Real-time messaging** using WebSockets  
+- 🔐 **Secure authentication** with JWT  
+- 🎨 **Responsive UI** with Tailwind CSS  
+- 📂 **Database management** with Prisma ORM  
+- 🚀 **Optimized performance** with Vite  
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Getting Started
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Prerequisites
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+Ensure you have the following installed:
+
+- **Node.js** (>=22.x)
+- **PostgreSQL** (>=13.x)
+- **pnpm** (or npm/yarn)
+
+### Installation
+
+1. **Clone the repository:**
+   ```sh
+   git clone https://github.com/your-username/aichat.git
+   cd aichat
