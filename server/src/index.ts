@@ -6,7 +6,8 @@ import morgan from "morgan";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 
-import authRouter from "../routers/user.router";
+import authRouter from "../routers/user.routes";
+import chatRouter from "../routers/chat.routes";
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use(cors({ origin: "http://localhost:4000", credentials: true }));
 
 // Routes
 app.use("/api/auth/", authRouter);
+app.use("/api/chat/", chatRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
