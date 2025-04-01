@@ -6,8 +6,9 @@ import morgan from "morgan";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 
-import authRouter from "../routers/user.routes";
-import chatRouter from "../routers/chat.routes";
+import authRoutes from "../routers/auth.routes";
+import chatRoutes from "../routers/chat.routes";
+import userRoutes from "../routers/user.routes";
 
 dotenv.config();
 
@@ -24,8 +25,9 @@ app.use(express.urlencoded({ extended: true })); // Parse URL-encoded form data
 app.use(cors({ origin: "http://localhost:4000", credentials: true }));
 
 // Routes
-app.use("/api/auth/", authRouter);
-app.use("/api/chat/", chatRouter);
+app.use("/api/auth", authRoutes);
+app.use("/api/chat", chatRoutes);
+app.use("/api/users", userRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

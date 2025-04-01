@@ -1,37 +1,49 @@
-import { PrismaClient, Role } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
+import { JwtPayload } from "jsonwebtoken";
 
 const prisma = new PrismaClient();
 
-export const signup = async (req: Request, res: Response) => {
+interface AuthRequest extends Request {
+  user?: JwtPayload;
+}
+
+export const allUsers = async (req: Request, res: Response) => {
   try {
-    const { username, email, password, role } = req.body;
-
-    if (!username || !email || !password) {
-      return res.status(400).json({ message: "Please fill all the fields" });
-    }
-
-    const userRole = role ? Role.ADMIN : Role.USER;
-
-    const user = await prisma.user.create({
-      data: { username, email, password, role: userRole },
-    });
-
-    return res.status(201).json({ message: "User created successfully", user });
+    const users = await prisma.user.findMany();
+    return res.status(200).json({ message: "OK", users });
   } catch (error) {
-    console.error("Error in signup controller:", error);
+    console.error("Error in getAllUsers controller:", error);
     return res.status(500).json({ message: "Internal server error", error });
-  } finally {
-    await prisma.$disconnect();
   }
 };
 
-export const login = async (req: Request, res: Response) => {
+export const me = async (req: AuthRequest, res: Response) => {
   try {
-    const users = await prisma.user.findMany();
-    return res.status(200).json({ message: "Users fetched successfully", users });
+    const user = req.user;
+
+    const userData = await prisma.user.findUnique({
+      where: { username: user?.username },
+    });
+
+    return res.status(200).json({ message: "OK", userData });
   } catch (error) {
-    console.error("Error in login controller:", error);
+    console.error("Error in getAllUsers controller:", error);
+    return res.status(500).json({ message: "Internal server error", error });
+  }
+};
+
+export const user = async (req: AuthRequest, res: Response) => {
+  try {
+    const username = req.params.username;
+
+    const userData = await prisma.user.findUnique({
+      where: { username },
+    });
+
+    return res.status(200).json({ message: "OK", userData });
+  } catch (error) {
+    console.error("Error in getAllUsers controller:", error);
     return res.status(500).json({ message: "Internal server error", error });
   }
 };
