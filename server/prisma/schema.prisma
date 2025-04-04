@@ -23,6 +23,7 @@ model User {
   updatedAt DateTime @updatedAt
   avatart   String?
   Profile   Profile?
+  phone    String?
   chat      chat[]
 }
 

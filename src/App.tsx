@@ -1,3 +1,8 @@
+import { Route, Routes } from "react-router-dom";
+import Home from "./screens/Home";
+import Signup from "./screens/Signup";
+import Login from "./screens/Login";
+
 function App() {
   const object = {
     name: "John",
@@ -7,9 +12,11 @@ function App() {
     console.log(object.age);
   }
   return (
-    <div>
-      <button className="btn btn-primary">Primary</button>
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+    </Routes>
   );
 }
 

@@ -5,9 +5,12 @@ import generateJsonWebToken from "../util/generateJsonWebToken";
 
 const prisma = new PrismaClient();
 
-export const signup = async (req: Request, res: Response) => {
+export const signup = async (
+  req: Request,
+  res: Response
+): Promise<Response | void> => {
   try {
-    const { username, email, password, role } = req.body;
+    const { username, email, password, role, phone } = req.body;
 
     const existingUsername = await prisma.user.findUnique({
       where: { username },
@@ -29,7 +32,13 @@ export const signup = async (req: Request, res: Response) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const user = await prisma.user.create({
-      data: { username, email, password: hashedPassword, role: userRole },
+      data: {
+        username,
+        email,
+        password: hashedPassword,
+        role: userRole,
+        phone,
+      },
     });
 
     return res.status(201).json({ message: "User created successfully", user });
@@ -41,7 +50,10 @@ export const signup = async (req: Request, res: Response) => {
   }
 };
 
-export const login = async (req: Request, res: Response) => {
+export const login = async (
+  req: Request,
+  res: Response
+): Promise<Response | void> => {
   try {
     const { username, password } = req.body;
 

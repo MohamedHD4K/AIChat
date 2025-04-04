@@ -3,7 +3,10 @@ import { Request, Response } from "express";
 
 const prisma = new PrismaClient();
 
-export const getAllChats = async (req: Request, res: Response) => {
+export const getAllChats = async (
+  req: Request,
+  res: Response
+): Promise<Response | void> => {
   try {
     const chats = await prisma.chat.findMany();
 

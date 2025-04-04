@@ -1,13 +1,20 @@
 import { Response } from "express";
 import jwt from "jsonwebtoken";
 
-const generateJsonWebToken = (res: Response, userId: string , username : string , role : string) => {
+const generateJsonWebToken = (
+  res: Response,
+  userId: string,
+  username: string,
+  role: string
+) => {
   try {
     if (!process.env.JWT_SECRET) {
       throw new Error("JWT_SECRET is not defined in environment variables.");
     }
 
-    const token = jwt.sign({ id: userId , username , role }, process.env.JWT_SECRET, {
+    const payload = { id: userId, username, role };
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: "30d", // Token expires in 30 days
     });
 
