@@ -75,6 +75,7 @@ const Input: React.FC<InputType> = ({
         />
         {profixIcon && (
           <button
+            type="button"
             className="hover:bg-black/40 cursor-pointer active:bg-black/50 rounded-full duration-150 p-2"
             onClick={onVisible}
           >

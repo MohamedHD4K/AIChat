@@ -11,6 +11,20 @@ export const signupValidation = [
     .trim()
     .isLength({ min: 6 })
     .withMessage("Password must be at least 6 characters"),
+  body("confirmPassword")
+    .trim()
+    .isLength({ min: 6 })
+    .withMessage("Password must be at least 6 characters"),
+  body("confirmPassword").custom((value, { req }) => {
+    if (value !== req.body.password) {
+      throw new Error("Passwords do not match");
+    }
+    return true;
+  }),
+  body("phone")
+    .optional()
+    .isMobilePhone("any")
+    .withMessage("Please enter a valid phone number"),
 ];
 
 export const loginValidation = [

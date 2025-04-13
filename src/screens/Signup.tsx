@@ -2,6 +2,7 @@ import { CiUser } from "react-icons/ci";
 import { FaGoogle, FaGithub, FaFacebook, FaLinkedin } from "react-icons/fa";
 import Input from "../components/shared/Input";
 import { useState } from "react";
+import { Toaster } from "react-hot-toast";
 import {
   MdEmail,
   MdPassword,
@@ -11,11 +12,13 @@ import {
 } from "react-icons/md";
 import SignupLottie from "../components/lottie/SignupLottie";
 import { Link } from "react-router-dom";
+import useSignup from "../hooks/useSignup";
 
 const Signup = () => {
+  const { mutate, isPending } = useSignup();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [value, setValue] = useState({
+  const [formData, setFormData] = useState({
     username: "",
     email: "",
     phone: "",
@@ -33,12 +36,19 @@ const Signup = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setValue((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(value);
+    mutate(formData);
+    setFormData({
+      username: "",
+      email: "",
+      phone: "",
+      password: "",
+      confirmPassword: "",
+    });
   };
 
   return (
@@ -62,7 +72,7 @@ const Signup = () => {
                 name="username"
                 icon={<CiUser size={20} />}
                 label="Username"
-                value={value.username}
+                value={formData.username}
                 onChange={handleChange}
               />
 
@@ -71,7 +81,7 @@ const Signup = () => {
                 type="email"
                 icon={<MdEmail size={20} />}
                 label="Email address"
-                value={value.email}
+                value={formData.email}
                 onChange={handleChange}
               />
 
@@ -80,7 +90,7 @@ const Signup = () => {
                 type="tel"
                 icon={<MdPhone size={20} />}
                 label="Phone number"
-                value={value.phone}
+                value={formData.phone}
                 onChange={handleChange}
               />
 
@@ -89,7 +99,7 @@ const Signup = () => {
                 type={showPassword ? "text" : "password"}
                 icon={<MdPassword size={20} />}
                 label="Create password"
-                value={value.password}
+                value={formData.password}
                 onChange={handleChange}
                 onVisible={() => handleVisible("password")}
                 profixIcon={
@@ -106,7 +116,7 @@ const Signup = () => {
                 type={showConfirmPassword ? "text" : "password"}
                 icon={<MdPassword size={20} />}
                 label="Confirm password"
-                value={value.confirmPassword}
+                value={formData.confirmPassword}
                 onChange={handleChange}
                 onVisible={() => handleVisible("confirmPassword")}
                 profixIcon={
@@ -145,7 +155,14 @@ const Signup = () => {
               type="submit"
               className="w-full bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white py-3 px-4 rounded-lg font-medium transition duration-200 shadow-md hover:shadow-lg"
             >
-              Create Account
+              {isPending ? (
+                <div className="flex gap-2 items-center justify-center">
+                  <span className="loading loading-spinner loading-sm"></span>
+                  Loading...
+                </div>
+              ) : (
+                "Create Account"
+              )}
             </button>
 
             <div className="relative">
@@ -209,6 +226,7 @@ const Signup = () => {
           </div>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 };

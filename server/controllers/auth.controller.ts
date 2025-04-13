@@ -80,3 +80,12 @@ export const login = async (
     await prisma.$disconnect();
   }
 };
+
+// {
+//   "username": "women",
+//   "email": "women@gmail.com",
+//   "password": "123456",
+//   "role": false,
+//   "confirmPassword": "123456",
+//   "phone": "55202314120"
+// }

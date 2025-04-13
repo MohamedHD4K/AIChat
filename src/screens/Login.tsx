@@ -5,16 +5,16 @@ import { useState } from "react";
 import { MdPassword, MdVisibility, MdVisibilityOff } from "react-icons/md";
 import LoginLottie from "../components/lottie/SignupLottie";
 import { Link } from "react-router-dom";
+import useLogin from "../hooks/useLogin";
+import { Toaster } from "react-hot-toast";
 
 const Login = () => {
+  const { mutate, isPending } = useLogin();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [value, setValue] = useState({
+  const [formData, setFormData] = useState({
     username: "",
-    email: "",
-    phone: "",
     password: "",
-    confirmPassword: "",
   });
 
   const handleVisible = (field: "password" | "confirmPassword") => {
@@ -27,12 +27,12 @@ const Login = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setValue((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(value);
+    mutate(formData);
   };
 
   return (
@@ -46,21 +46,21 @@ const Login = () => {
           <div className="p-6 bg-gradient-to-r from-base-300/70 to-base-300 md:hidden">
             <h1 className="text-3xl font-bold">Join Us Today</h1>
             <p className="text-blue-100 mt-1">
-              Create your account to get started
+              Sign in to access your account and explore our features.
             </p>
           </div>
 
           <form
             onSubmit={handleSubmit}
-            className="p-6 min-h-[30rem] flex flex-col justify-center space-y-5"
+            className="p-6 min-h-[33.4rem] gap-2 flex flex-col justify-center space-y-5"
           >
-            <div className="space-y-4">
+            <div className="space-y-5">
               <Input
                 name="username"
                 icon={<CiUser size={20} />}
                 label="Username"
                 required
-                value={value.username}
+                value={formData.username}
                 onChange={handleChange}
               />
 
@@ -68,9 +68,9 @@ const Login = () => {
                 name="password"
                 type={showPassword ? "text" : "password"}
                 icon={<MdPassword size={20} />}
-                label="Create password"
+                label="Password"
                 required
-                value={value.password}
+                value={formData.password}
                 onChange={handleChange}
                 onVisible={() => handleVisible("password")}
                 profixIcon={
@@ -110,7 +110,14 @@ const Login = () => {
               type="submit"
               className="w-full bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white py-3 px-4 rounded-lg font-medium transition duration-200 shadow-md hover:shadow-lg"
             >
-              Create Account
+              {isPending ? (
+                <div className="flex gap-2 items-center justify-center">
+                  <span className="loading loading-spinner loading-sm"></span>
+                  Loading...
+                </div>
+              ) : (
+                "Login"
+              )}
             </button>
 
             <div className="relative">
@@ -174,6 +181,7 @@ const Login = () => {
           </div>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 };
