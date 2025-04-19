@@ -5,12 +5,25 @@ import { MdLightbulbOutline } from "react-icons/md";
 import { PiDotsThreeBold } from "react-icons/pi";
 import { TbWorld } from "react-icons/tb";
 
-const TextArea = () => {
+const TextArea = ({
+  input,
+  setInput,
+  sendMessage,
+  isLoading,
+}: {
+  input: string;
+  sendMessage:() => void;
+  isLoading: boolean;
+  setInput: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const handleInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const textarea = e.target;
     textarea.style.height = "3rem";
     textarea.style.height = `${textarea.scrollHeight}px`; // Auto-expand
   };
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+    setInput(e.target.value);
 
   return (
     <div className="bg-[#303030] gap-1 rounded-4xl p-3 pl-4 pt-6 flex flex-col">
@@ -18,6 +31,8 @@ const TextArea = () => {
         placeholder="Ask anything..."
         className="outline-none resize-none max-h-60 min-h-10 w-3xl overflow-hidden text-white"
         onInput={handleInput}
+        value={input}
+        onChange={handleChange}
       />
       <div className="flex justify-between">
         <div className="flex gap-2">
@@ -46,8 +61,15 @@ const TextArea = () => {
           </button>
         </div>
 
-        <button className="btn btn-circle hover:bg-white/80 bg-white text-black btn-ghost border-none">
-          <IoMdArrowUp size={20} />
+        <button
+          onClick={() => sendMessage()}
+          className="btn btn-circle hover:bg-white/80 bg-white text-black btn-ghost border-none"
+        >
+          {isLoading ? (
+            <div className="loading loading-spinner loading-sm" />
+          ) : (
+            <IoMdArrowUp size={20} />
+          )}
         </button>
       </div>
     </div>
